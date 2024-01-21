@@ -1,0 +1,67 @@
+.reqcon{
+    width: 250px;
+    max-height: 300px;
+    position:absolute;
+    top: 70px;
+    right: 0;
+    background-color: rgba(251, 251, 251, 0.725);
+    border: 1px solid white;
+    border-radius: 20px;
+    z-index: 9999;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /* align-items: center; */
+    /* overflow: hidden; */
+}
+.reqcon::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reqcon {
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+  }
+
+.reqdiv{
+    width: 90%;
+    overflow: hidden;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.868);
+    height: 80px;
+    position: relative;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    padding: 5px;
+}
+.reqdiv img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    margin-right: 20px;
+}
+.reqdiv{
+    font-weight: 300 !important;
+}
+.req-btn{
+    cursor: pointer;
+    margin-top: 10px;
+    width: 70px;
+    background-color: rgb(0, 123, 255);
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.req-btn:hover{
+    background-color:rgb(2, 106, 218) ;
+}
