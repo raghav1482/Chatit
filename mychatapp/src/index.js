@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
     <MyProvider>
-    <App link='http://localhost:4000'/>
+    <App link='https://chatitserver.onrender.com'/>
     </MyProvider>
     </BrowserRouter>
   </React.StrictMode>
