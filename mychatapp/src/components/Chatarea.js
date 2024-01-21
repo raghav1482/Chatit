@@ -109,12 +109,7 @@ export default function ChatArea(props){
       });
     
       // Clean up event listeners when the component unmounts
-      return () => {
-        socket.off("messageReceived");
-        socket.off("userOnline");
-        socket.off("userOffline");
-      };
-    }, [socket, location.state.targetid]);
+    }, [allMessages]);
     
     
     
