@@ -109,7 +109,7 @@ export default function ChatArea(props){
       });
     
       // Clean up event listeners when the component unmounts
-    }, [allMessages]);
+    }, [socket,allMessages]);
     
     
     
