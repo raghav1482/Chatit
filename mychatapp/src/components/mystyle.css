@@ -21,7 +21,12 @@
     background-color: rgb(75, 74, 74) !important;
     color: white !important;
 }
-
+.online{
+    color: #0091ff;
+}
+.offline{
+    color: #ff2828;
+}
 
 
 .side-bar{
@@ -217,7 +222,10 @@
     line-height: 18px;
 }
 .chat-name span{
-    font-weight: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
     font-style: italic;
 }
 
@@ -314,6 +322,21 @@
     border: none;
     outline: none;
 }
+.green{
+    background: #5bb6d1;
+  }
+  .red{
+    background: rgba(200, 100, 100, 0.966);
+  }
+.circle {
+    display: inline-block;
+    margin-left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 1px 1px #0000001a;
+    animation: pulse-animation 2s infinite;
+  }
 @keyframes  pulse2 {
     0%{
         opacity: 0;
@@ -328,6 +351,14 @@
     }
 }
 
+@keyframes pulse-animation {
+    0% {
+      box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+    }
+  }
 .login-container{
     background-color: white;
     height: 80vh;

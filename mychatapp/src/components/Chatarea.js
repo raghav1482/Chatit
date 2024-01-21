@@ -171,7 +171,7 @@ export default function ChatArea(props){
         <motion.div initial={{opacity:0 , scale:0.9}} animate={{opacity:1 , scale:1}} exit={{ opacity:0 , scale:0}} className={'chat-area'+ (light?"" : " dark")}>
             <div className={'chat-header'+ (light?"" : " dark-2")}>
                 <div className='chat-info'>
-                    {location.state.isGrp?<p className='chat-icon'>{chat_user[0].toUpperCase()}</p>:<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${location.state.target_image}`} className="chat-icon" style={{objectFit:"cover"}}/>}<p className='chat-name'>{location.state.isGrp?location.state.grpName:location.state.name}<br/><span style={{fontSize:"12px"}}>{online?"online":"offline"}</span></p>
+                    {location.state.isGrp?<p className='chat-icon'>{chat_user[0].toUpperCase()}</p>:<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${location.state.target_image}`} className="chat-icon" style={{objectFit:"cover"}}/>}<p className='chat-name'>{location.state.isGrp?location.state.grpName:location.state.name}<br/><span style={{fontSize:"12px"}} className={(online?"online":"offline")}>{online?"online":"offline"}<div class={"circle"+(online?" green":" red")}></div></span></p>
                 </div>
                 <div className='chat-head-icon'>
                     {location.state.isGrp && (location.state.grpAdmin) && (location.state.grpAdmin._id === userData.data._id) &&<Tooltip title="Requests"><IconButton onClick={()=>{setReq(!req);}}><NotificationsActiveIcon/></IconButton></Tooltip>}
