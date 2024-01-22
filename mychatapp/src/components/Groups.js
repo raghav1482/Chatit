@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Groups(props){
     const {light,refresh  ,refreshData} = useMyContext();
     const [onlineusr , setOnlineusr] = useState([]);
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(sessionStorage.getItem("userData"));
     const nav = useNavigate();
     const [loading  ,setLoad] = useState(false);
     const [name,setName] = useState("");

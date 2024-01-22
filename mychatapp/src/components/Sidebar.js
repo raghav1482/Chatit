@@ -22,29 +22,21 @@ export default function Sidebar(props){
     const {refresh,refreshData,light,nightMode}=useMyContext();
     // console.log(props.link);
     const [conversations, setConversations] = useState([]);
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
     const [loading , setLoad] = useState(false);
     const [searchArr , setarr] = useState([]);
     const [srch_name,set_srch] = useState("");
-
-    if(userData===null)
-    {
-      navigate("/");
-    }
-    else{
-      var user = userData.data;
-    }
-    
+       // If userData is not null, proceed with accessing user data
     useEffect(() => {
       setLoad(true);
-      if(userData!=null){
+      if(userData){
         const config = {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${userData?userData.data.token:''}`,
           },
         };
     
-        axios.get(`${props.link}/chat/`,config,{userId:user._id}).then((response) => {
+        axios.get(`${props.link}/chat/`,config,{userId:userData?userData.data._id:''}).then((response) => {
           if(searchArr.length<=0){
             setConversations(response.data.reverse());
           }
@@ -60,11 +52,11 @@ export default function Sidebar(props){
       try{
           const config = {
               headers:{
-                  Authorization:`Bearer ${userData.data.token}`
+                  Authorization:`Bearer ${userData?userData.data.token:''}`
               },
           };
           if(srch_name!=""){
-              await axios.get(`${props.link}/chat/searchchat?search_name=${srch_name}&userId=${[userData.data._id]}`,config).then((result)=>{setarr(result.data);refreshData()});
+              await axios.get(`${props.link}/chat/searchchat?search_name=${srch_name}&userId=${[userData?userData.data._id:'']}`,config).then((result)=>{setarr(result.data);refreshData()});
           }
           else{
               throw ("");
@@ -76,7 +68,7 @@ export default function Sidebar(props){
         <div className={'side-bar'+ (light?"" : " dark")} >
             <div className={"sb-header" + (light?"" : " dark-2")} >
                 <IconButton onClick={()=>{navigate('profile')}}>
-                  {(userData.data.image)?<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${userData.data.image}`} style={{width:"30px" , borderRadius:"50%",height:"30px",objectFit:"cover",border:"2px solid white",boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}/>:<AccountCircleIcon className={'icon'+ (light?"" : " dark-2")}/>}
+                  {(userData?userData.data.image:'')?<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${userData?userData.data.image:''}`} style={{width:"30px" , borderRadius:"50%",height:"30px",objectFit:"cover",border:"2px solid white",boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}/>:<AccountCircleIcon className={'icon'+ (light?"" : " dark-2")}/>}
                 </IconButton>
                 <div className={'sb-icons'}>
                 <IconButton onClick={()=>{navigate('chatmob',{state:{conv:(conversations)?conversations:[]}})}}><ThreePIcon className={'icon iconconv'+ (light?"" : " dark-2")}/></IconButton>
@@ -84,7 +76,7 @@ export default function Sidebar(props){
                 <IconButton><GroupAddIcon onClick={()=>{navigate('groups')}} className={'icon'+ (light?"" : " dark-2")}/></IconButton>
                 <IconButton onClick={()=>{navigate('create-grp')}}><AddCircleIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
                 <IconButton onClick={()=>{nightMode();if(light===true){document.body.style.backgroundColor = '#1c1c1c';}else{document.body.style.backgroundColor = 'white'}}}>{light?<NightlightIcon className={'icon'+ (light?"" : " dark-2")}/>:<LightModeIcon className={'icon'+ (light?"" : " dark-2")}/>}</IconButton>
-                <IconButton onClick={()=>{localStorage.clear();navigate('/')}}><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
+                <IconButton onClick={()=>{sessionStorage.clear();navigate('/')}}><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
                 </div>
             </div>
             <div className={'sb-div'+(light?"" : " dark-2")}>

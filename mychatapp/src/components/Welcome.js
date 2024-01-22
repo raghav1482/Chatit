@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import "./mystyle.css";
 import { useNavigate } from 'react-router-dom';
 export default function Welcome(){
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
     const nav = useNavigate();
     useEffect(()=>{
         if(!userData){

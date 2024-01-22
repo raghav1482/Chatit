@@ -8,7 +8,7 @@ export default function LoginComp(props){
     const [LoginStatus , setLogInStatus] = useState({});
     const [data,setdata] = useState({ name:"" , password:""});
     const [loading , setload]= useState(false);
-    const userData = localStorage.getItem("userData");
+    const userData = sessionStorage.getItem("userData");
     const nav = useNavigate();
     // console.log(props.link);
     useEffect(()=>{
@@ -31,7 +31,7 @@ export default function LoginComp(props){
             setLogInStatus({
                 msg:"Success",
                 key:Math.random()});
-            localStorage.setItem("userData",JSON.stringify(response));
+            sessionStorage.setItem("userData",JSON.stringify(response));
             nav("/app/welcome");
             setload(false);
             toast.success("Login Successful");

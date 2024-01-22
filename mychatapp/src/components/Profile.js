@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useMyContext } from './mycontext';
 
 function Profile(props) {
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(sessionStorage.getItem("userData"));
     const [alt, setAlt] = useState("alt");
     const [fileInput,setFileInput]=useState("");
     const [previewsrc , setPreviewSource] =useState();
@@ -49,7 +49,7 @@ function Profile(props) {
                   Authorization: `Bearer ${user.data.token}`,
                 },
               };
-            await axios.put(`${props.link}/user/updatepic/`,{userid:user.data._id , image:imageid},config).then((result)=>{user.data.image = result.data.image;localStorage.setItem("userData",JSON.stringify(user));toast.success("Image Updated Successfully");setLoad(false)});
+            await axios.put(`${props.link}/user/updatepic/`,{userid:user.data._id , image:imageid},config).then((result)=>{user.data.image = result.data.image;sessionStorage.setItem("userData",JSON.stringify(user));toast.success("Image Updated Successfully");setLoad(false)});
         }catch(e){console.log(e);toast.error("Some Error Occurred ! Try Again");setLoad(false);}
     }
 

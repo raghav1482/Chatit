@@ -4,7 +4,7 @@ import"./mystyle.css"
 import axios from 'axios';
 function Requests(props) {
     const [req,setReq] = useState([]);
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(sessionStorage.getItem("userData"));
     const [refresh,setref]= useState(true);
     const [load ,setload] = useState(false);
     useEffect(()=>{

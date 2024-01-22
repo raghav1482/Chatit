@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function CreateGrp(props){
     const nav = useNavigate();
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(sessionStorage.getItem("userData"));
     const [groupName,setGrpName] =useState("");
     const [loading ,setLoad]=useState(false);
     if(!user){

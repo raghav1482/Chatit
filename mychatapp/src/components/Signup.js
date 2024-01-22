@@ -27,7 +27,7 @@ export default function SignupComp(props){
                 key:Math.random()
             });
             nav("/app/welcome");
-            localStorage.setItem("userData",JSON.stringify(response));
+            sessionStorage.setItem("userData",JSON.stringify(response));
             setload(false);
             toast.success("Registered Successfully");
             

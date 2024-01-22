@@ -58,7 +58,7 @@ export default function ChatArea(props){
     const dyParams = useParams();
     const [chat_id, chat_user] = dyParams._id.split("&");
 
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
 
     useEffect(()=>{
       if(userData===null){

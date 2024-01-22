@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMyContext } from './mycontext';
 export default function ConversationItem(props){
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(sessionStorage.getItem("userData"));
     const {refresh , refreshData,light} = useMyContext();
     if (!props.data || !props.data.users || props.data.users.length < 2) {
       // Handle the missing or incomplete data here

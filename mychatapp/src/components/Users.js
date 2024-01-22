@@ -15,7 +15,7 @@ export default function Users(props){
     
     const nav = useNavigate();
     const [users , setUsers] = useState([]);
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
     if(!userData){
         nav(-1);
     }
