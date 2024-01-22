@@ -12,6 +12,20 @@ import { connectToSocket, disconnectFromSocket, reestablishSocketConnection, sav
 
 export default function Maincontainer(props){
     const user = JSON.parse(localStorage.getItem("userData"));
+      useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Clear localStorage here
+      localStorage.clear();
+    };
+
+    // Add the event listener when the component mounts
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
     useEffect(() => {
         reestablishSocketConnection(user.data._id);
 
@@ -25,7 +39,7 @@ export default function Maincontainer(props){
             disconnectFromSocket();
             console.log("gnfg");
           };
-      }, []);
+      }, [socket]);
 
     const {light} =useMyContext();
     return(
