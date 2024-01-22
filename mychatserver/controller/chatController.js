@@ -136,7 +136,7 @@ const searchChat = async (req, res) => {
     const result = await Chat.find({
       chatName: { $regex: new RegExp(search_name, 'i') },
       users: { $all: userId }
-    }).populate("users", "-password");
+    }).populate("users", "-password").populate("latestMessage");
 
     if (result.length > 0) {
       // Respond with a 200 status code and the found chats

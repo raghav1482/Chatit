@@ -7,7 +7,7 @@ import NightlightIcon from '@mui/icons-material/Nightlight';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 import SearchIcon from '@mui/icons-material/Search';
-import {IconButton} from "@mui/material";
+import {IconButton, Tooltip} from "@mui/material";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import "./mystyle.css";
 import ConversationItem from './ConversationsItem';
@@ -16,7 +16,6 @@ import axios from "axios"
 import { useMyContext } from './mycontext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 export default function Sidebar(props){
     const navigate = useNavigate();
     const {refresh,refreshData,light,nightMode}=useMyContext();
@@ -63,20 +62,25 @@ export default function Sidebar(props){
           }
       }catch(e){toast.error("Chat Not found!!");setarr([]);refreshData();};
   }
-
+    useEffect(()=>{
+      if(srch_name===""){
+        setarr([]);
+        refreshData();
+      }
+    },[srch_name]);
     return(
         <div className={'side-bar'+ (light?"" : " dark")} >
             <div className={"sb-header" + (light?"" : " dark-2")} >
-                <IconButton onClick={()=>{navigate('profile')}}>
+                <IconButton onClick={()=>{navigate('profile')}}><Tooltip title="Profile">
                   {(userData?userData.data.image:'')?<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${userData?userData.data.image:''}`} style={{width:"30px" , borderRadius:"50%",height:"30px",objectFit:"cover",border:"2px solid white",boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}/>:<AccountCircleIcon className={'icon'+ (light?"" : " dark-2")}/>}
-                </IconButton>
+                </Tooltip></IconButton>
                 <div className={'sb-icons'}>
                 <IconButton onClick={()=>{navigate('chatmob',{state:{conv:(conversations)?conversations:[]}})}}><ThreePIcon className={'icon iconconv'+ (light?"" : " dark-2")}/></IconButton>
-                <IconButton onClick={()=>{navigate('users')}}><PersonAddIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
-                <IconButton><GroupAddIcon onClick={()=>{navigate('groups')}} className={'icon'+ (light?"" : " dark-2")}/></IconButton>
-                <IconButton onClick={()=>{navigate('create-grp')}}><AddCircleIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
+                <IconButton onClick={()=>{navigate('users')}}><Tooltip title="Add User"><PersonAddIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
+                <IconButton><Tooltip title="Groups"><GroupAddIcon onClick={()=>{navigate('groups')}} className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
+                <IconButton onClick={()=>{navigate('create-grp')}}><Tooltip title="Create Group"><AddCircleIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
                 <IconButton onClick={()=>{nightMode();if(light===true){document.body.style.backgroundColor = '#1c1c1c';}else{document.body.style.backgroundColor = 'white'}}}>{light?<NightlightIcon className={'icon'+ (light?"" : " dark-2")}/>:<LightModeIcon className={'icon'+ (light?"" : " dark-2")}/>}</IconButton>
-                <IconButton onClick={()=>{sessionStorage.clear();navigate('/')}}><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></IconButton>
+                <IconButton onClick={()=>{sessionStorage.clear();navigate('/')}}><Tooltip title="Logout"><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
                 </div>
             </div>
             <div className={'sb-div'+(light?"" : " dark-2")}>

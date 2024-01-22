@@ -57,6 +57,15 @@ export default function Groups(props){
             }
         }catch(e){toast.error("Group Not found!!");setarr([]);refreshData();};
     }
+
+    
+    useEffect(()=>{
+        if(name===""){
+            setarr([]);
+            refreshData();
+        }
+    },[name]);
+    
     return(<>
         <AnimatePresence>
         <motion.div initial={{opacity:0 , scale:0.9}} animate={{opacity:1 , scale:1}} exit={{ opacity:0 , scale:0}} className={'list-container'+(light?"":" dark")}>

@@ -54,6 +54,13 @@ export default function Users(props){
             }
         }catch(e){toast.error("User Not found!!");setarr([]);refreshData();};
     }
+
+    useEffect(()=>{
+        if(name===""){
+            setarr([]);
+            refreshData();
+        }
+    },[name]);
     
     return(<>
     <AnimatePresence>
