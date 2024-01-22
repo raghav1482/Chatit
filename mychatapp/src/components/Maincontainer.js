@@ -22,7 +22,6 @@ export default function Maincontainer(props){
     saveSocketConnection();
         // Clean up when the component unmounts
         return () => {
-            localStorage.clear();
             disconnectFromSocket();
             console.log("gnfg");
           };
