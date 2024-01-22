@@ -24,7 +24,7 @@ export default function Maincontainer(props){
         return () => {
             disconnectFromSocket();
           };
-      }, [socket]);
+      }, []);
 
     const {light} =useMyContext();
     return(
