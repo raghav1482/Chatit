@@ -23,6 +23,7 @@ export default function Maincontainer(props){
         // Clean up when the component unmounts
         return () => {
             disconnectFromSocket();
+            localStorage.clear();
           };
       }, []);
 
