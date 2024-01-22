@@ -24,6 +24,7 @@ export default function Maincontainer(props){
         return () => {
             disconnectFromSocket();
             localStorage.clear();
+            console.log("gnfg");
           };
       }, []);
 
