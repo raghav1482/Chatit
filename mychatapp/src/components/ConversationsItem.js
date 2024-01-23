@@ -2,6 +2,7 @@ import React from 'react';
 import "./mystyle.css";
 import { useNavigate } from 'react-router-dom';
 import { useMyContext } from './mycontext';
+import PhotoIcon from '@mui/icons-material/Photo';
 export default function ConversationItem(props){
     const navigate = useNavigate();
     const user = JSON.parse(sessionStorage.getItem("userData"));
@@ -41,7 +42,7 @@ export default function ConversationItem(props){
           }}>
             <div className='con-icon'>{props.data.isGrpChat?props.data.chatName[0]:target.image?<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${target.image}`} style={{width:"55px",height:"55px",objectFit:"cover"}}/>:target.name[0]}</div>
             <p className='con-title'>{props.data.isGrpChat?props.data.chatName:target.name}</p>
-            <p className='con-lastmsg'>{props.data.latestMessage?props.data.latestMessage.content:"No last Msg"}</p>
+            <p className='con-lastmsg'>{props.data.latestMessage?(props.data.latestMessage.content.slice(0,4)==='img:')?<PhotoIcon fontSize='10px'/>:props.data.latestMessage.content:"No last Msg"}</p>
             <p className='con-time'>{timeOnly?timeOnly.split(':')[0]+':'+timeOnly.split(':')[1]:""}</p>
         </div>
     );

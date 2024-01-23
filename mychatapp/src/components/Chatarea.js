@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import axios from "axios"
 import { socket } from './soketservice';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,6 +31,8 @@ export default function ChatArea(props){
     const [loading , setLoading]=useState(false);
     const [req,setReq]=useState(false);
     const [online , setOnline] = useState(false);
+    const [fileInput,setFileInput]=useState("");
+    const [previewsrc , setPreviewSource] =useState();
 
     const chatContainerRef = useRef(null);
     const handleScroll = () => {
@@ -115,27 +118,33 @@ export default function ChatArea(props){
     
     
     const sendMessage = () => {
+      document.getElementsByClassName('imgsend')[0].style.display='none';
       setLoading(true);
       setMessageContent("");
-            const config = {
-              headers: {
-                Authorization: `Bearer ${userData.data.token}`,
-              },
-            };
-            axios
-            .post(
-              `${props.link}/message/`,
-              {
-                content: messageContent,
-                chatId: chat_id,
-              },
-              config
-            )
-            .then((result ) => {
-              socket.emit("new message", result);
-              refreshData();
-              setLoading(false);
-            }).catch(e=>{toast.error("Some Error Occured!!")});
+            if(previewsrc){
+             uploadImg(previewsrc);
+            }
+            else{
+              const config = {
+                headers: {
+                  Authorization: `Bearer ${userData.data.token}`,
+                },
+              };
+              axios
+              .post(
+                `${props.link}/message/`,
+                {
+                  content: messageContent,
+                  chatId: chat_id,
+                },
+                config
+              )
+              .then((result ) => {
+                socket.emit("new message", result);
+                refreshData();
+                setLoading(false);
+              }).catch(e=>{toast.error("Some Error Occured!!");setLoading(false)});
+            }
       
           // Emit the "new message" event instead of "newMessage"
         };
@@ -166,6 +175,59 @@ export default function ChatArea(props){
         }catch(e){toast.error("Error exiting group")};
       }
 
+      const handleimg= async(e)=>{
+        e.preventDefault();
+        const file = e.target.files[0];
+        var fileSize = e.target.files[0].size;
+        if(fileSize>2097152){
+          toast.info("File size should be less than 2MB");
+          return;
+        }
+        setFileInput(file);
+        previewFile(file);
+        document.getElementsByClassName('imgsend')[0].style.display='block';
+      }
+      const previewFile = (file)=>{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend=()=>{
+            setPreviewSource(reader.result);
+        }
+    }
+    const uploadImg =async(base64EncodedImage)=>{
+      try{
+          setLoading(true);
+          const config = {
+              headers: {
+                Authorization: `Bearer ${userData.data.token}`,
+              },
+            };
+          await axios.post(`${props.link}/user/picupload/`,{data:base64EncodedImage},config).then(async(result)=>{
+            // setMessageContent('img:'+result.data.image);
+            var content = 'img:'+result.data.image;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${userData.data.token}`,
+              },
+            };
+            await axios
+            .post(
+              `${props.link}/message/`,
+              {
+                content: content,
+                chatId: chat_id,
+              },
+              config
+            )
+            .then((result ) => {
+              socket.emit("new message", result);
+              refreshData();
+              setLoading(false);
+              setPreviewSource("");
+            })
+          });
+      }catch(e){toast.error("Some Error Occurred ! Try Again");setLoading(false)}
+  };
     return(
         <AnimatePresence>
         <motion.div initial={{opacity:0 , scale:0.9}} animate={{opacity:1 , scale:1}} exit={{ opacity:0 , scale:0}} className={'chat-area'+ (light?"" : " dark")}>
@@ -193,12 +255,19 @@ export default function ChatArea(props){
               }
             })}
                 </div>
-            <div className='text-area'><input placeholder={(loading===true)?'Sending':'Type Message...'} value={messageContent}
-            onChange={(e) => {
+            <div className='text-area'>
+              <input type='file' id='imagefile' onChange={handleimg}  accept=".jpg, .jpeg, .png"/>
+              <img src={previewsrc} className='imgsend'/>
+              <input placeholder={(loading===true)?'Sending':'Type Message...'} value={messageContent}
+              onChange={(e) => {
               setMessageContent(e.target.value);
-            }}></input><IconButton onClick={() => {
-                sendMessage();
-              }}><SendIcon/></IconButton></div>
+              }}></input>
+              <div>
+              <IconButton><label htmlFor='imagefile'><AddPhotoAlternateIcon/></label></IconButton>
+              <IconButton onClick={() => {sendMessage();}}><SendIcon/></IconButton>
+              </div>
+
+            </div>
         </motion.div>
         <ToastContainer/>
         </AnimatePresence>

@@ -189,6 +189,7 @@
     border-radius: 20px;
     padding-inline: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: relative;
 }
 .iconconv{
     display: none !important;
@@ -496,7 +497,33 @@
     transform: translate(-50%, -50%);
     animation: scaleUp 1s linear infinite;
   }
+  #imagefile{
+    display: none;
+  }
   
+  .imgsend{
+    width: 100%;
+    max-width: 150px;
+    max-height: 150px;
+    position: absolute;
+    display: none;
+    bottom: 30px;
+    border-radius: 20px;
+    border: 5px solid white;
+    z-index: 9999;
+  }
+  .msg-p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 5px;
+  }
+  .msg-p img{
+    width: 95%;
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 20px;
+  }
   @keyframes scaleUp {
     0% { transform: translate(-50%, -50%) scale(0) }
     60% , 100% { transform: translate(-50%, -50%)  scale(1)}
