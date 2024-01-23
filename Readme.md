@@ -1,5 +1,5 @@
 # Chat It
-![Picsart_24-01-19_02-29-10-249](https://github.com/raghav1482/Chatit/assets/98442936/644992e7-dbf6-4154-bf88-b92c1f61fc27)
+![Picsart_24-01-19_02-29-10-249](https://github.com/raghav1482/Chatit/assets/98442936/d100f4ad-067e-4a45-b985-e8bb9ef08a12)
 
 Chat It is a feature-rich chat application that provides a dynamic and interactive platform for real-time communication. Leveraging a robust technology stack, including Express, MongoDB, React, and Socket.io, the application offers a seamless chat experience with advanced features such as group chat, group administration, password encryption, JWT authentication, and cloud-based profile photo management through Cloudinary.
 ### Backend Technologies:
