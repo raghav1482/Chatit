@@ -586,11 +586,11 @@
     }
     .text-area input{
         flex: auto;
-        width: 80% !important;
+        width: 50% !important;
     }
     .chat-name{
         font-size: 15px;
-        max-width: 40%;
+        max-width: 50%;
         float: left;
         margin-left:10px;
         flex-wrap: wrap;
