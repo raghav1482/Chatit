@@ -1,7 +1,7 @@
 // socketService.js
 import io from 'socket.io-client';
 
-const socket = io('https://chatitserver.onrender.com');
+const socket = io("https://chatitserver.onrender.com");
 
 const connectToSocket = (userId) => {
     socket.io.opts.query = { userId };

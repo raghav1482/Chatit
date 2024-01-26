@@ -63,9 +63,31 @@ io.on("connection",async(socket)=>{
     
     socket.on("join chat",({room,socketid})=>{
         socket.join(room);
-        // socket.to(room).emit("joined");
     });
-    
+
+    socket.on('join-call-room', ({ room, mypeerid }) => {
+        socket.join(room);
+        console.log(`User joined room ${room} with peer ID ${mypeerid}`);
+        
+        // Here, you can use the mypeerid as the remote peer ID for simplicity
+        const remoteid = mypeerid;
+        
+        // Emit the event to the user who just joined
+        socket.emit('joined-room-call', { remoteid });
+        
+        // Broadcast to other users in the room (if needed)
+        socket.to(room).emit('joined-room-call', { remoteid });
+      });
+
+      socket.on('call-disconnected', ({ room,remotePeerId }) => {
+        // Handle call disconnection
+        console.log(`Call disconnected for remote peer ID: ${remotePeerId}`);
+        
+        // You can broadcast this information to other users in the same room if needed
+         // Implement your logic to get the room based on peer ID
+        socket.to(room).emit('call-disconnected', { room,remotePeerId });
+      });
+
     socket.on("new message", (newMsg) => {
         var chat = newMsg.data.chat;
         socket.to(chat._id).emit("messageReceived", newMsg); // Fix the event name here

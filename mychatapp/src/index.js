@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
     <MyProvider>
-    <App link='https://chatitserver.onrender.com'/>
+    <App link="https://chatitserver.onrender.com"/>
     </MyProvider>
     </BrowserRouter>
   </React.StrictMode>

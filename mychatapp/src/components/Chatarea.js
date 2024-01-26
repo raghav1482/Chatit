@@ -13,9 +13,11 @@ import { socket } from './soketservice';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Requests from './Requests';
+
 
 export default function ChatArea(props){
   const ENDPOINT =props.link;
@@ -69,8 +71,6 @@ export default function ChatArea(props){
       }
     },[])
 
-    // connect to socket
-
     useEffect(() => {
         socket.emit("join chat",{room:chat_id,socketid:userData.data._id});
         const getonline = async()=>{
@@ -98,14 +98,12 @@ export default function ChatArea(props){
       });
     
       socket.on("userOnline", (onlineUserId) => {
-        console.log(onlineUserId, location.state.targetid);
         if (onlineUserId === location.state.targetid) {
           setOnline(true);
         }
       });
     
       socket.on("userOffline", (offlineUserId) => {
-        console.log(offlineUserId, location.state.targetid);
         if (offlineUserId === location.state.targetid) {
           setOnline(false);
         }
@@ -113,8 +111,6 @@ export default function ChatArea(props){
     
       // Clean up event listeners when the component unmounts
     }, [socket,allMessages]);
-    
-    
     
     
     const sendMessage = () => {
@@ -228,6 +224,7 @@ export default function ChatArea(props){
           });
       }catch(e){toast.error("Some Error Occurred ! Try Again");setLoading(false)}
   };
+
     return(
         <AnimatePresence>
         <motion.div initial={{opacity:0 , scale:0.9}} animate={{opacity:1 , scale:1}} exit={{ opacity:0 , scale:0}} className={'chat-area'+ (light?"" : " dark")}>
@@ -236,6 +233,7 @@ export default function ChatArea(props){
                     {location.state.isGrp?<p className='chat-icon'>{chat_user[0].toUpperCase()}</p>:<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${location.state.target_image}`} className="chat-icon" style={{objectFit:"cover"}}/>}<p className='chat-name'>{location.state.isGrp?location.state.grpName:location.state.name}<br/><span style={{fontSize:"12px"}} className={(online?"online":"offline")}>{online?"online":"offline"}<div class={"circle"+(online?" green":" red")}></div></span></p>
                 </div>
                 <div className='chat-head-icon'>
+                {!location.state.isGrp && <Tooltip title="Video Call"><IconButton onClick={()=>{nav(`/app/call/${chat_id}`,{state:{room:chat_id}})}}><VideoCallIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && (location.state.grpAdmin) && (location.state.grpAdmin._id === userData.data._id) &&<Tooltip title="Requests"><IconButton onClick={()=>{setReq(!req);}}><NotificationsActiveIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && <Tooltip title="Exit Group"><IconButton onClick={ExitGroup}><PersonRemoveIcon/></IconButton></Tooltip>}
                 </div>
