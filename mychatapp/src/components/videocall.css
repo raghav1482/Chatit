@@ -25,8 +25,8 @@ video{
 height: 15% !important;
 width: 15% !important;
 position: absolute;
-margin-top: 80px;
-right: 25%;
+bottom: 20px;
+right: 20px;
 z-index: 9999;
 }
 .other{
@@ -81,6 +81,19 @@ color: white !important;
 @media only screen and (max-width:680px){
 .video-call{
     flex: 1;
+    align-items: normal;
 }
-
+.other{
+    width: 87% !important;
+}
+.my{
+    width: 40% !important;
+    height: 30% !important;
+}
+.call-control button{
+    margin: auto 0px;
+}
+.call-control{
+    padding-inline: 40px;
+}
 }

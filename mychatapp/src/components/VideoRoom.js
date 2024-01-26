@@ -86,7 +86,7 @@ function VideoRoom() {
     const call = (remotePeerId) => {
         var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     
-        getUserMedia({ video: true, audio: true }, (mediaStream) => {
+        getUserMedia({ video: true, audio: mute }, (mediaStream) => {
           setMystream(mediaStream);
     
           const call = peerInstance.current.call(remotePeerId, mediaStream)
@@ -114,16 +114,15 @@ function VideoRoom() {
 
   return (
     <div className='video-call'>
+      <div className="video-div other">
       <div className="video-div my">
       <ReactPlayer
             playing
-            muted={mute}
             url={myStream}
             height="100%"
             width="100%"
             />
       </div>
-      <div className="video-div other">
       <ReactPlayer
             playing
             url={remStream}
