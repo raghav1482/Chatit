@@ -54,6 +54,7 @@ const io = require("socket.io")(server,{
     pingTimeout:60000,
 });
 
+const userPeer = new Map();
 io.on("connection",async(socket)=>{
     const userId = socket.handshake.query.userId;
     socket.emit("connected",userId);
@@ -64,28 +65,20 @@ io.on("connection",async(socket)=>{
     socket.on("join chat",({room,socketid})=>{
         socket.join(room);
     });
-
-    socket.on('join-call-room', ({ room, mypeerid }) => {
+    socket.on('join-call-room', ({ room, mypeerid ,myuserid}) => {
         socket.join(room);
-        console.log(`User joined room ${room} with peer ID ${mypeerid}`);
+        userPeer.set(myuserid,mypeerid);
+
         
         // Here, you can use the mypeerid as the remote peer ID for simplicity
         const remoteid = mypeerid;
         
         // Emit the event to the user who just joined
-        socket.emit('joined-room-call', { remoteid });
+        socket.emit('joined-room-call', { remoteid,userPeer: Object.fromEntries(userPeer)  });
         
         // Broadcast to other users in the room (if needed)
         socket.to(room).emit('joined-room-call', { remoteid });
-      });
-
-      socket.on('call-disconnected', ({ room,remotePeerId }) => {
-        // Handle call disconnection
-        console.log(`Call disconnected for remote peer ID: ${remotePeerId}`);
-        
-        // You can broadcast this information to other users in the same room if needed
-         // Implement your logic to get the room based on peer ID
-        socket.to(room).emit('call-disconnected', { room,remotePeerId });
+        socket.emit('usersBeforeYou', {userPeer: Object.fromEntries(userPeer) });
       });
 
     socket.on("new message", (newMsg) => {

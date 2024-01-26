@@ -12,6 +12,7 @@ import "./videocall.css";
 function VideoRoom() {
   const nav = useNavigate();
     const loc = useLocation();
+    const targetId = loc.state.remoteUsr;
     const [peerid , setPeerid] = useState();
     const [remotePeerIdval,setRemotePeerIdValue] = useState();
     const peerInstance = useRef(null);
@@ -19,24 +20,14 @@ function VideoRoom() {
     const [remStream , setRemotestream] = useState();
     const [mute , setmute] = useState(true);
     const [load , setLoad]=useState(true);
-    useEffect(() => {
-      // ... (existing code)
-  
-      socket.on('call-disconnected', ({ remotePeerId }) => {
-        // Handle the call disconnection event
-        console.log(`Call disconnected for remote peer ID: ${remotePeerId}`);
-  
-        // You may want to perform additional cleanup or UI updates here
-      });
-  
-      // ... (existing code)
-    }, [socket, loc.state.room, remotePeerIdval]);
+    const [usersBefore, setUsersBefore] = useState({});
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
 
     useEffect(()=>{
       const peer = new Peer();
       peer.on('open', (id) => {
         setPeerid(id)
-        socket.emit("join-call-room",{room:loc.state.room+'call',mypeerid:id});
+        socket.emit("join-call-room",{room:loc.state.room+'call',mypeerid:id,myuserid:userData.data._id});
       });
             peer.on('call', (call) => {
                 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -52,7 +43,6 @@ function VideoRoom() {
 
               peer.on('close', () => {
                 // Handle call close event, you can emit a socket event here
-                socket.emit('call-disconnected', {room:loc.state.room, remotePeerId: remotePeerIdval });
               });
           
             peerInstance.current = peer;
@@ -60,29 +50,28 @@ function VideoRoom() {
 
     useEffect(() => {
       const handleJoinedRoomCall = async (data) => {
-        console.log('remote id:', data.remoteid);
-    
+        // console.log('remote id:', data.remoteid);
         // Set the remote peer id when a user joins the room
-        setRemotePeerIdValue(data.remoteid);
-    
-        if (data.remoteid === peerid) {
-          console.log('Setting load to true');
-          setLoad(true);
-        } else {
-          console.log('Setting load to false');
-          setLoad(false);
+        // console.log(data);
+        if(data.userPeer && data.userPeer[targetId]!=undefined){
+          setRemotePeerIdValue(data.userPeer[targetId]);
+        }else{
+          setRemotePeerIdValue(data.remoteid);
+
         }
       };
     
       socket.on('joined-room-call', handleJoinedRoomCall);
+
+      socket.on('usersBeforeYou', ({userPeer}) => {
+        setUsersBefore(new Map(Object.entries(userPeer)));
+      });
     
       return () => {
         socket.off('joined-room-call', handleJoinedRoomCall);
       };
-    }, [peerid]); // Make sure to include peerid in the dependency array if it is used inside the useEffect
+    }, [peerid,usersBefore]); // Make sure to include peerid in the dependency array if it is used inside the useEffect
     
-
-
     const call = (remotePeerId) => {
         var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     
@@ -119,6 +108,7 @@ function VideoRoom() {
       <ReactPlayer
             playing
             url={myStream}
+            muted
             height="100%"
             width="100%"
             />
@@ -132,7 +122,7 @@ function VideoRoom() {
           <div className='remote-desc'>{remotePeerIdval}</div>
       </div>
       <div className='call-control'>
-      <Tooltip title="Call"><IconButton className='call' disabled={load} onClick={(e) =>{e.preventDefault(); call(remotePeerIdval)}}><AddIcCallIcon /></IconButton></Tooltip>
+      <Tooltip title="Call"><IconButton className='call' onClick={(e) =>{e.preventDefault(); call(remotePeerIdval)}}><AddIcCallIcon /></IconButton></Tooltip>
       <Tooltip title="End"><IconButton  onClick={()=>{setmute(!mute)}}>{(mute)?<MicOffIcon/>:<MicIcon/>}</IconButton></Tooltip>
       <Tooltip title="End"><IconButton className='hang' onClick={hangUp}><PhoneDisabledIcon/></IconButton></Tooltip>
       </div>
