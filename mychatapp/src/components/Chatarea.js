@@ -233,7 +233,7 @@ export default function ChatArea(props){
                     {location.state.isGrp?<p className='chat-icon'>{chat_user[0].toUpperCase()}</p>:<img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${location.state.target_image}`} className="chat-icon" style={{objectFit:"cover"}}/>}<p className='chat-name'>{location.state.isGrp?location.state.grpName:location.state.name}<br/>{!location.state.isGrp && <span style={{fontSize:"12px"}} className={(online?"online":"offline")}>{online?"online":"offline"}<div class={"circle"+(online?" green":" red")}></div></span>}</p>
                 </div>
                 <div className='chat-head-icon'>
-                {!location.state.isGrp && <Tooltip title="Video Call"><IconButton onClick={()=>{nav(`/app/call/${chat_id}`,{state:{room:chat_id,remoteUsr:location.state.targetid}})}}><VideoCallIcon/></IconButton></Tooltip>}
+                {!location.state.isGrp && <Tooltip title="Video Call"><IconButton onClick={()=>{nav(`/app/call/${chat_id}`,{state:{room:chat_id,remoteUsr:location.state.targetid,remoteName:location.state.name}})}}><VideoCallIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && (location.state.grpAdmin) && (location.state.grpAdmin._id === userData.data._id) &&<Tooltip title="Requests"><IconButton onClick={()=>{setReq(!req);}}><NotificationsActiveIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && <Tooltip title="Exit Group"><IconButton onClick={ExitGroup}><PersonRemoveIcon/></IconButton></Tooltip>}
                 </div>

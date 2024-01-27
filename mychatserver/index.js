@@ -79,6 +79,9 @@ io.on("connection",async(socket)=>{
         // Broadcast to other users in the room (if needed)
         socket.to(room).emit('joined-room-call', { remoteid });
         socket.emit('usersBeforeYou', {userPeer: Object.fromEntries(userPeer) });
+        socket.on("call-disconnected",(data)=>{
+            socket.to(data.room).emit("call-off");
+        })
       });
 
     socket.on("new message", (newMsg) => {

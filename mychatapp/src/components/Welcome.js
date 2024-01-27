@@ -7,6 +7,8 @@ export default function Welcome(){
     useEffect(()=>{
         if(!userData){
             nav("/");
+        }else{
+            
         }
     },[]);
     return(

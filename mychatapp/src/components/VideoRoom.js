@@ -22,6 +22,7 @@ function VideoRoom() {
     const [load , setLoad]=useState(true);
     const [usersBefore, setUsersBefore] = useState({});
     const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const [calloff,setCalloff]=useState(false);
 
     useEffect(()=>{
       const peer = new Peer();
@@ -66,26 +67,37 @@ function VideoRoom() {
       socket.on('usersBeforeYou', ({userPeer}) => {
         setUsersBefore(new Map(Object.entries(userPeer)));
       });
+      socket.on("call-off",()=>{
+        setCalloff(true);
+      })
     
       return () => {
         socket.off('joined-room-call', handleJoinedRoomCall);
       };
     }, [peerid,usersBefore]); // Make sure to include peerid in the dependency array if it is used inside the useEffect
     
-    const call = (remotePeerId) => {
+      const call = (remotePeerId) => {
         var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     
-        getUserMedia({ video: true, audio: mute }, (mediaStream) => {
+        getUserMedia({ video: true, audio: true }, (mediaStream) => {
           setMystream(mediaStream);
-    
+
+          
           const call = peerInstance.current.call(remotePeerId, mediaStream)
-    
+          
           call.on('stream', (remoteStream) => {
             setRemotestream(remoteStream);
           });
         });
       }
-
+      const toggleMic = () => {
+        const audioTracks = myStream.getAudioTracks();
+        audioTracks.forEach((track) => {
+          track.enabled = !mute;
+        });
+        setmute(!mute);
+      };
+      
       const hangUp = () => {
         // Close the media stream
         myStream.getTracks().forEach((track) => track.stop());
@@ -98,9 +110,14 @@ function VideoRoom() {
         // Additional cleanup, if needed
         setMystream(null);
         setRemotestream(null);
-        socket.emit("call-disconnected",{room:loc.state.room, remotePeerId:remotePeerIdval});
+        socket.emit("call-disconnected",{room:loc.state.room});
+        nav("/app/welcome");
       };
-
+      useEffect(() => {
+        if (calloff) {
+          hangUp();
+        }
+      }, [calloff]);
   return (
     <div className='video-call'>
       <div className="video-div other">
@@ -112,6 +129,7 @@ function VideoRoom() {
             height="100%"
             width="100%"
             />
+      <div className='remote-desc'>Me</div>
       </div>
       <ReactPlayer
             playing
@@ -119,11 +137,11 @@ function VideoRoom() {
             height="100%"
             width="100%"
           />
-          <div className='remote-desc'>{remotePeerIdval}</div>
+          <div className='remote-desc'>{loc.state.remoteName}</div>
       </div>
       <div className='call-control'>
       <Tooltip title="Call"><IconButton className='call' onClick={(e) =>{e.preventDefault(); call(remotePeerIdval)}}><AddIcCallIcon /></IconButton></Tooltip>
-      <Tooltip title="End"><IconButton  onClick={()=>{setmute(!mute)}}>{(mute)?<MicOffIcon/>:<MicIcon/>}</IconButton></Tooltip>
+      <Tooltip title={(mute)?"Mute":"Unmute"}><IconButton  onClick={toggleMic}>{(mute)?<MicOffIcon/>:<MicIcon/>}</IconButton></Tooltip>
       <Tooltip title="End"><IconButton className='hang' onClick={hangUp}><PhoneDisabledIcon/></IconButton></Tooltip>
       </div>
     </div>

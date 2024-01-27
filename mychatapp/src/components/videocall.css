@@ -22,8 +22,8 @@ video{
 }
 
 .my{
-height: 15% !important;
-width: 15% !important;
+height: 30% !important;
+width: 30% !important;
 position: absolute;
 bottom: 20px;
 right: 20px;
@@ -77,6 +77,9 @@ color: white !important;
 .other:hover > .remote-desc {
    opacity: 1;
 }
+.my:hover>.remote-desc{
+    opacity: 1;
+}
 
 @media only screen and (max-width:680px){
 .video-call{
@@ -85,10 +88,6 @@ color: white !important;
 }
 .other{
     width: 87% !important;
-}
-.my{
-    width: 40% !important;
-    height: 30% !important;
 }
 .call-control button{
     margin: auto 0px;
