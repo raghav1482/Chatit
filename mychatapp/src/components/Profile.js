@@ -72,7 +72,7 @@ function Profile(props) {
                     <p style={{fontSize:"20px",maxWidth:"10%",}}>{user.data.email}</p>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer stacked />
         </div>
     )
 }

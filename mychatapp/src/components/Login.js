@@ -57,7 +57,7 @@ export default function LoginComp(props){
                 <Button variant='contained' style={{margin:"10px",width:"90px"}} onClick={loginhandler}>{(loading==true)?<span class="loader"></span>:"Login"}</Button>
                 <span>Don't have an account?? <Link to='/signup'>SignUP</Link></span>
             </div>
-            <ToastContainer/>
+            <ToastContainer stacked />
         </div>
     );
 }

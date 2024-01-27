@@ -101,7 +101,7 @@ export default function Users(props){
                 </div>}
             </div>
         </motion.div>
-                <ToastContainer/>
+                <ToastContainer stacked />
         </AnimatePresence>
     </>);
 }

@@ -524,6 +524,24 @@
     max-height: 250px;
     border-radius: 20px;
   }
+
+
+  /* Toasts */
+  .Toastify__toast {
+    width: 200px !important;
+    font-size: 14px !important;
+    padding:auto 0 !important;
+}
+.Toastify__close-button {
+    position: absolute;
+    top: 40%;
+    right: 10%;
+}
+.Toastify__toast-body > div:last-child {
+    max-width: 65% !important;
+}
+
+
   @keyframes scaleUp {
     0% { transform: translate(-50%, -50%) scale(0) }
     60% , 100% { transform: translate(-50%, -50%)  scale(1)}

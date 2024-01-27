@@ -1,5 +1,5 @@
 import { Button, TextField, colors } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,12 +8,23 @@ export default function SignupComp(props){
     const [SignupStatus , setSignupStatus] = useState({});
     const [data,setdata] = useState({email:"" , name:"" , password:""});
     const [loading , setload]= useState(false);
+    const [errors,setErrors]=useState({email:false});
     const nav = useNavigate();
     
     const change=(e)=>{
         setdata({...data,[e.target.name]:e.target.value});
     };
     const signuphandler = async ()=>{
+        if(!data.email.trim()) {
+            setErrors({email:"Email is required"});
+        } else if(!/\S+@\S+\.\S+/.test(data.email)){
+            setErrors({email:"Invalid email"});
+        }
+        else if(data.password.length <= 6){
+            setErrors({email:false,password:"password should be greater than 6 letters"});
+        }
+        else{
+            setErrors({email:false,password:false});
         setload(true);
         try{
             const config = {
@@ -50,6 +61,7 @@ export default function SignupComp(props){
             setload(false);
         }
     }
+    }
     
 
     return(
@@ -58,12 +70,12 @@ export default function SignupComp(props){
             <div className='login-form'>
                 <h2 style={{color : "rgb(35, 112, 255"}}>CREATE ACCOUNT</h2>
                 <TextField id='standard-basic' label='Name' variant='outlined' style={{margin:"10px"}} onChange={change} name="name" value={data.name}></TextField>
-                <TextField id='outlined-email-input' label='Email' type='email' style={{margin:"10px"}} onChange={change} name="email" value={data.email}></TextField>
-                <TextField id='outlined-password-input' label='Password' type='password' style={{margin:"10px"}} onChange={change} name="password" value={data.password}></TextField>
+                <TextField id='outlined-email-input' helperText={errors.email} label='Email' type='email' style={{margin:"10px"}} onChange={change} name="email" value={data.email} error={errors.email}></TextField>
+                <TextField id='outlined-password-input' error={errors.password} label='Password' type='password' style={{margin:"10px"}} onChange={change} name="password" helperText={errors.password} value={data.password}></TextField>
                 <Button variant='contained' style={{width:"90px"}} onClick={signuphandler}>{(loading==true)?<span class="loader"></span>:"Register"}</Button>
                 <span>Already have an account?? <Link to='/'>Login</Link></span>
             </div>
-            <ToastContainer/>
+            <ToastContainer stacked />
         </div>
     );
 }

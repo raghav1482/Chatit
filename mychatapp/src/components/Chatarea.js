@@ -267,7 +267,7 @@ export default function ChatArea(props){
 
             </div>
         </motion.div>
-        <ToastContainer/>
+        <ToastContainer stacked />
         </AnimatePresence>
     );
 }

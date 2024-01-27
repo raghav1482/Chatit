@@ -43,7 +43,7 @@ export default function CreateGrp(props){
                 {(loading===true)?<span className="loader-2" style={{marginBottom:"0",height:"30px",width:"30px"}}></span>:<IconButton onClick={createGroup}><DoneIcon/></IconButton>}
             </div>
         </motion.div>
-        <ToastContainer/>
+        <ToastContainer stacked />
         </AnimatePresence>
     );
 }

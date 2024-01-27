@@ -95,7 +95,7 @@ export default function Sidebar(props){
                   })}
               </div>}
             </div>
-            <ToastContainer/>
+            <ToastContainer stacked />
         </div>
     );
 }
