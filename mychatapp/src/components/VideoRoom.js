@@ -23,6 +23,7 @@ function VideoRoom() {
     const [usersBefore, setUsersBefore] = useState({});
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     const [calloff,setCalloff]=useState(false);
+    const [acc,setAcc] = useState(false);
 
     useEffect(()=>{
       const peer = new Peer();
@@ -31,6 +32,9 @@ function VideoRoom() {
         socket.emit("join-call-room",{room:loc.state.room+'call',mypeerid:id,myuserid:userData.data._id});
       });
             peer.on('call', (call) => {
+              const accept = window.confirm("Incomming call");
+              setAcc(accept);
+              if(accept===true){
                 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
           
                 getUserMedia({ video: true, audio: true }, (mediaStream) => {
@@ -40,6 +44,9 @@ function VideoRoom() {
                     setRemotestream(remoteStream);
                   });
                 });
+              }else{
+                hangUp();
+              }
               })
 
               peer.on('close', () => {
@@ -86,6 +93,7 @@ function VideoRoom() {
           const call = peerInstance.current.call(remotePeerId, mediaStream)
           
           call.on('stream', (remoteStream) => {
+            setAcc(true);
             setRemotestream(remoteStream);
           });
         });
@@ -100,7 +108,9 @@ function VideoRoom() {
       
       const hangUp = () => {
         // Close the media stream
-        myStream.getTracks().forEach((track) => track.stop());
+        if(myStream){
+          myStream.getTracks().forEach((track) => track.stop());
+        }
     
         // Close the Peer connection
         if (peerInstance.current) {
@@ -140,9 +150,9 @@ function VideoRoom() {
           <div className='remote-desc'>{loc.state.remoteName}</div>
       </div>
       <div className='call-control'>
-      <Tooltip title="Call"><IconButton className='call' onClick={(e) =>{e.preventDefault(); call(remotePeerIdval)}}><AddIcCallIcon /></IconButton></Tooltip>
-      <Tooltip title={(mute)?"Mute":"Unmute"}><IconButton  onClick={toggleMic}>{(mute)?<MicOffIcon/>:<MicIcon/>}</IconButton></Tooltip>
-      <Tooltip title="End"><IconButton className='hang' onClick={hangUp}><PhoneDisabledIcon/></IconButton></Tooltip>
+      {!acc && <Tooltip title="Call"><IconButton className='call' onClick={(e) =>{e.preventDefault(); call(remotePeerIdval)}}><AddIcCallIcon /></IconButton></Tooltip>}
+      {acc &&<Tooltip title={(mute)?"Mute":"Unmute"}><IconButton  onClick={toggleMic}>{(mute)?<MicOffIcon/>:<MicIcon/>}</IconButton></Tooltip>}
+      {acc && <Tooltip title="End"><IconButton className='hang' onClick={hangUp}><PhoneDisabledIcon/></IconButton></Tooltip>}
       </div>
     </div>
   )
