@@ -57,9 +57,9 @@ const io = require("socket.io")(server,{
 const userPeer = new Map();
 io.on("connection",async(socket)=>{
     const userId = socket.handshake.query.userId;
-    socket.emit("connected",userId);
     await User.findByIdAndUpdate(userId, { online: true });
     socket.broadcast.emit("userOnline",userId);
+    socket.emit("connected",userId);
     
     
     socket.on("join chat",({room,socketid})=>{
