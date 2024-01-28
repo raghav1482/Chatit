@@ -68,6 +68,15 @@ export default function Sidebar(props){
         refreshData();
       }
     },[srch_name]);
+
+    const logout=async()=>{
+      const config = {
+        headers:{
+            Authorization:`Bearer ${userData?userData.data.token:''}`
+        },
+    };
+      await axios.post(`${props.link}/user/logout`,{userId:userData.data._id},config).then(()=>{sessionStorage.clear();navigate('/')}).catch(e=>{toast.error("Erro logging out!!")});
+    }
     return(
         <div className={'side-bar'+ (light?"" : " dark")} >
             <div className={"sb-header" + (light?"" : " dark-2")} >
@@ -80,7 +89,7 @@ export default function Sidebar(props){
                 <IconButton><Tooltip title="Groups"><GroupAddIcon onClick={()=>{navigate('groups')}} className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
                 <IconButton onClick={()=>{navigate('create-grp')}}><Tooltip title="Create Group"><AddCircleIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
                 <IconButton onClick={()=>{nightMode();if(light===true){document.body.style.backgroundColor = '#1c1c1c';}else{document.body.style.backgroundColor = 'white'}}}>{light?<NightlightIcon className={'icon'+ (light?"" : " dark-2")}/>:<LightModeIcon className={'icon'+ (light?"" : " dark-2")}/>}</IconButton>
-                <IconButton onClick={()=>{sessionStorage.clear();navigate('/')}}><Tooltip title="Logout"><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
+                <IconButton onClick={logout}><Tooltip title="Logout"><LogoutIcon className={'icon'+ (light?"" : " dark-2")}/></Tooltip></IconButton>
                 </div>
             </div>
             <div className={'sb-div'+(light?"" : " dark-2")}>

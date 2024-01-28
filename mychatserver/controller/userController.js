@@ -23,7 +23,7 @@ const loginController = expresAsyncHandler(async (req, res) => {
 
   if (user) {
       if (await user.matchPassword(password)) {
-          await User.updateOne({ name: name }, { online: 1 }).then(() => {
+          await User.updateOne({ name: name }, { online: true }).then(() => {
               res.status(200).json({
                   message: "Login Successful",
                   _id: user._id,
@@ -170,15 +170,15 @@ const fetchAllUsersController = expresAsyncHandler(async (req, res) => {
   };
   
 
-  // const setonline = async(req,res)=>{
-  //   const {userId} = req.body;
-  //   try{
-  //     await User.findByIdAndUpdate(userId , {online:1}).then(()=>{res.json({msg : userId + " ONLINE"})})
-  //   }catch(error){
-  //     res.status(400);
-  //     console.log(e);
-  //   }
-  // }
+  const logout = async(req,res)=>{
+    const {userId} = req.body;
+    try{
+      await User.findByIdAndUpdate(userId , {online:false}).then(()=>{res.json({msg : userId + " ONLINE"})})
+    }catch(error){
+      res.status(400);
+      console.log(e);
+    }
+  }
   
 
-module.exports = {loginController ,searchUser, regController , fetchAllUsersController,picupload,updateusr,online};
+module.exports = {loginController ,logout,searchUser, regController , fetchAllUsersController,picupload,updateusr,online};
