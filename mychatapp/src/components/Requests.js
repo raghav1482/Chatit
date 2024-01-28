@@ -24,9 +24,9 @@ function Requests(props) {
       await axios.put(`${props.link}/chat/grpaccept`,{grpId:props.grp_id,userId:userId},config).then((result)=>{setref(!refresh);}).catch(e=>{console.log(e)})
     }
 
-    const reject = async()=>{
+    const reject = async(id)=>{
       const config={headers:{Authorization:`Bearer ${user.data.token}`}}
-      await axios.delete(`${props.link}/chat/grpreject`,config).then((result)=>{setref(!refresh);}).catch(e=>{console.log(e)});
+      await axios.delete(`${props.link}/chat/grpreject?id=${id}`,config).then((result)=>{setref(!refresh);}).catch(e=>{console.log(e)});
     }
   return (
     <div className='reqcon'>
@@ -36,7 +36,7 @@ function Requests(props) {
         <div>
             <h4 style={{margin:"0"}}>{element.req_id.name}</h4>
             <button className='req-btn' onClick={() => accept(element.req_id._id)}>Accept</button>
-            <button className='req-btn' onClick={reject}>Reject</button>
+            <button className='req-btn' onClick={()=>{reject(element.req_id._id)}}>Reject</button>
         </div>
       </div>
         );

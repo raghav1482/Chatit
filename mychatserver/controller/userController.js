@@ -17,24 +17,33 @@ cloudinary.config({
 });
 
 
+const loginController = expresAsyncHandler(async (req, res) => {
+  const { name, password } = req.body;
+  const user = await User.findOne({ name });
 
-const loginController = expresAsyncHandler(async(req,res)=>{
-    const {name , password}  = req.body;
-    const user =await User.findOne({name});
-    if(user){
-        if(await user.matchPassword(password)){
-            res.status(200).json({message:"Login Successfull",_id:user._id , name:user.name , email:user.email , isAdmin:user.isAdmin , token:generateToken(user._id),image:user.image})
-        }
-        else{
-            res.status(400).json({message:"Wrong credentials !!!"});
-            throw new Error("Wrong credentials !!!");
-          }
-        }
-        else{
-        res.status(400).json({message:"Please Signup First!!!"});
-        throw new Error("Please Signup First !!!");
-    }
+  if (user) {
+      if (await user.matchPassword(password)) {
+          await User.updateOne({ name: name }, { online: 1 }).then(() => {
+              res.status(200).json({
+                  message: "Login Successful",
+                  _id: user._id,
+                  name: user.name,
+                  email: user.email,
+                  isAdmin: user.isAdmin,
+                  token: generateToken(user._id),
+                  image: user.image
+              });
+          });
+      } else {
+          res.status(400).json({ message: "Wrong credentials !!!" });
+          throw new Error("Wrong credentials !!!");
+      }
+  } else {
+      res.status(400).json({ message: "Please Signup First!!!" });
+      throw new Error("Please Signup First !!!");
+  }
 });
+
 
 
 
@@ -160,6 +169,16 @@ const fetchAllUsersController = expresAsyncHandler(async (req, res) => {
     }
   };
   
+
+  // const setonline = async(req,res)=>{
+  //   const {userId} = req.body;
+  //   try{
+  //     await User.findByIdAndUpdate(userId , {online:1}).then(()=>{res.json({msg : userId + " ONLINE"})})
+  //   }catch(error){
+  //     res.status(400);
+  //     console.log(e);
+  //   }
+  // }
   
 
 module.exports = {loginController ,searchUser, regController , fetchAllUsersController,picupload,updateusr,online};

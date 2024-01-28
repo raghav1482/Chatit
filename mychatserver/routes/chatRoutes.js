@@ -1,5 +1,5 @@
 const express= require("express");
-const {accessChat , fetchChats, createGroupsChat,fetchGroups,groupExit, addSelfToGrp, searchChat, searchGrp,reqGrp,getreq, grpaccept, grpreject} = require("../controller/chatController");
+const {accessChat , fetchChats,deleteGRP, createGroupsChat,fetchGroups,groupExit, addSelfToGrp, searchChat, searchGrp,reqGrp,getreq, grpaccept, grpreject} = require("../controller/chatController");
 const { protect } = require("../middleware/authmiddleware");
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.get('/getgrpreq' ,protect, getreq);
 router.put('/grpaccept' ,protect, grpaccept);
 router.delete('/grpreject' ,protect, grpreject);
 router.put('/grpexit' ,protect, groupExit);
+router.delete('/deletegrp' ,protect, deleteGRP);
 
 
 

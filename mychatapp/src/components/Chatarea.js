@@ -225,6 +225,20 @@ export default function ChatArea(props){
       }catch(e){toast.error("Some Error Occurred ! Try Again");setLoading(false)}
   };
 
+  const deleteGrp = async()=>{
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.data.token}`,
+      },
+    };
+    try{
+      console.log(chat_id)
+      await axios.delete(`${props.link}/chat/deletegrp?grp_id=${chat_id}`,config).then(()=>{toast("Deleted");nav("/app/welcome")});
+    }catch(e){
+      toast.error("Error!!");
+    }
+  }
+  
     return(
         <AnimatePresence>
         <motion.div initial={{opacity:0 , scale:0.9}} animate={{opacity:1 , scale:1}} exit={{ opacity:0 , scale:0}} className={'chat-area'+ (light?"" : " dark")}>
@@ -236,6 +250,7 @@ export default function ChatArea(props){
                 {!location.state.isGrp && <Tooltip title="Video Call"><IconButton onClick={()=>{nav(`/app/call/${chat_id}`,{state:{room:chat_id,remoteUsr:location.state.targetid,remoteName:location.state.name}})}}><VideoCallIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && (location.state.grpAdmin) && (location.state.grpAdmin._id === userData.data._id) &&<Tooltip title="Requests"><IconButton onClick={()=>{setReq(!req);}}><NotificationsActiveIcon/></IconButton></Tooltip>}
                     {location.state.isGrp && <Tooltip title="Exit Group"><IconButton onClick={ExitGroup}><PersonRemoveIcon/></IconButton></Tooltip>}
+                    {location.state.isGrp && (location.state.grpAdmin) && (location.state.grpAdmin._id === userData.data._id) &&<Tooltip title="DeleteGroup"><IconButton onClick={deleteGrp}><DeleteIcon/></IconButton></Tooltip>}
                 </div>
                 {req && <Requests grp_id={chat_id} link={props.link}/>}
             </div>

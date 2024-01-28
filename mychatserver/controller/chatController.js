@@ -77,6 +77,7 @@ const createGroupsChat = asyncHandler(async (req,res)=>{
 
     var users = JSON.parse(req.body.users);
     users.push(req.user);
+    users.push(req.user);
 
     try{
         const groupChat = await Chat.create({
@@ -86,18 +87,16 @@ const createGroupsChat = asyncHandler(async (req,res)=>{
             groupAdmin:req.user,
         });
         const fullGroupChat = await Chat.findOne({_id:groupChat.id}).populate("users","-password").populate("groupAdmin" , "-password");
-
-        res.sendStatus(200).json(fullGroupChat);
+        res.json(fullGroupChat);
     }catch(e){
-        res.sendStatus(400);
-        res.send(e.message);
+        console.log("ERROR GROUP CHAT");
     }
 
 });
 
 const fetchGroups = asyncHandler(async (req, res) => {
   try {
-      const allGroups = await Chat.find({ 'isGrpChat': true });
+      const allGroups = await Chat.find({ 'isGrpChat': true , users: { $nin: req.user }});
       res.status(200).send(allGroups); // Set status and send the response
   } catch (e) {
       res.status(400).send(e.message); // Set status and send the error message
@@ -154,12 +153,24 @@ const searchChat = async (req, res) => {
   }
 };
 
+const deleteGRP = async (req, res) => {
+  const grpid  = req.query.grp_id;
+  try {
+    await Chat.deleteOne({ _id: grpid });
+    res.status(200).json({ msg: "Group deleted successfully" });
+  } catch (e) {
+    console.error(e); // Log the error for debugging purposes
+    res.status(400).json({ msg: "Error!" });
+  }
+};
+
+
 const searchGrp = async (req, res) => {
   try {
     const { search_name, userId } = req.query;
 
     const result = await Chat.find({
-      chatName: { $regex: new RegExp(search_name, 'i') },isGrpChat:true
+      chatName: { $regex: new RegExp(search_name, 'i') },isGrpChat:true,users:{$nin:req.user}
     });
 
 
@@ -224,8 +235,8 @@ const grpaccept = async(req,res)=>{
 
 const grpreject = async (req, res) => {
   try {
-    const { requestId } = req.body;
-    const result = await Request.deleteOne(requestId);
+    const requestId  = req.query.id;
+    const result = await Request.deleteOne({req_id:requestId});
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -235,4 +246,4 @@ const grpreject = async (req, res) => {
 
 
 
-module.exports = {accessChat ,searchChat, fetchChats , fetchGroups , groupExit,createGroupsChat,searchGrp,reqGrp,getreq,grpaccept,grpreject}
+module.exports = {accessChat ,searchChat,deleteGRP, fetchChats , fetchGroups , groupExit,createGroupsChat,searchGrp,reqGrp,getreq,grpaccept,grpreject}
