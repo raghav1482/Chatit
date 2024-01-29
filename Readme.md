@@ -1,5 +1,5 @@
 # Chat It
-![Picsart_24-01-19_02-29-10-249](https://github.com/raghav1482/Chatit/assets/98442936/d100f4ad-067e-4a45-b985-e8bb9ef08a12)
+![Screenshot 2024-01-30 011142](https://github.com/raghav1482/Chatit/assets/98442936/b42d2995-bd7c-4e71-a573-76ae92c4dc10)
 
 Chat It is a feature-rich chat application that provides a dynamic and interactive platform for real-time communication. Leveraging a robust technology stack, including Express, MongoDB, React, and Socket.io, the application offers a seamless chat experience with advanced features such as group chat, group administration, password encryption, JWT authentication, and cloud-based profile photo management through Cloudinary.
 ### Backend Technologies:
@@ -31,27 +31,32 @@ Chat It is a feature-rich chat application that provides a dynamic and interacti
 ### Version Control:
 1. **Git:** A distributed version control system for tracking changes in source code.
 
+### OTHERS:
+1. WEBRTC - for one to one Video calls
+   
 These technologies collectively contribute to the functionality and design of your Chat It application.
 
 ## Features
 
 1. **Real-time Chat:** Utilizes Socket.io for seamless real-time communication between users.
 
-2. **Group Chat:** Enables users to participate in group conversations.
+2. **Video Call:** One on one Video calling functionality
 
-3. **Group Admin:** Empowers administrators with additional control and management capabilities within group chats.
+3. **Group Chat:** Enables users to participate in group conversations.
 
-4. **Password Encryption:** Implements bcrypt for secure password hashing and storage.
+4. **Group Admin:** Empowers administrators with additional control and management capabilities within group chats.
 
-5. **JWT Authentication:** Uses JSON Web Tokens for user authentication, providing a secure and efficient login system.
+5. **Password Encryption:** Implements bcrypt for secure password hashing and storage.
 
-6. **Change Profile Photo:** Integrates Cloudinary to allow users to easily change and update their profile photos.
+6. **JWT Authentication:** Uses JSON Web Tokens for user authentication, providing a secure and efficient login system.
 
-7. **Frontend with React:** Utilizes React for a dynamic and responsive user interface.
+7. **Change Profile Photo:** Integrates Cloudinary to allow users to easily change and update their profile photos.
 
-8. **Notification System:** Implements Toastify for a user-friendly notification system.
+8. **Frontend with React:** Utilizes React for a dynamic and responsive user interface.
 
-9. **Material-UI (MUI):** Enhances the application's UI with the Material-UI component library.
+9. **Notification System:** Implements Toastify for a user-friendly notification system.
+
+10. **Material-UI (MUI):** Enhances the application's UI with the Material-UI component library.
 
 ## Setup
 
