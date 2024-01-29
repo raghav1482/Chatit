@@ -107,9 +107,6 @@ These technologies collectively contribute to the functionality and design of yo
 
 Visit `http://localhost:3000` in your browser to access the application.
 
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to Chat It, please follow the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
