@@ -679,3 +679,21 @@
         max-width: 60%;
     }
 }
+
+/* HTML: <div class="loader"></div> */
+#lm {
+    color: #676666;
+    width: 3px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin:30px 60px;
+    box-shadow: 12px 0 0 3px, 24px 0 0 1px, 36px 0 0 0;
+    transform: translateX(-24px);
+    animation: l21 .5s infinite alternate linear;
+}
+  
+@keyframes l21 {
+    50%  {box-shadow: 12px 0 0 1px, 24px 0 0 3px, 36px 0 0 1px}
+    100% {box-shadow: 12px 0 0 0, 24px 0 0 1px, 36px 0 0 3px}
+}
+
