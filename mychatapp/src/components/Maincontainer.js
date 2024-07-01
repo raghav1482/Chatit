@@ -30,9 +30,13 @@ export default function Maincontainer(props){
 
     const {light} =useMyContext();
     return(
+      <div>
+        <div class="gradient" style={{objectFit:"cover"}}></div>
         <div className={'main-container'+(light?"":" dark")}>
             <Sidebar link={props.link}/>
             <Outlet/>
+        </div>
+
         </div>
     );
 }
