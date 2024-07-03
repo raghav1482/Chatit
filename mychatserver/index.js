@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const User = require("./models/userModel");
 const app = express();
+const path = require('path');
 dotenv.config();
 const DB = process.env.DATABASE;
 app.use(express.json({ limit: '100mb' }));
@@ -35,6 +36,22 @@ const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
     res.send("hello");
 })
+app.get('/download/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const newFilename = req.query.nm || filename; // Get the new filename from query parameters or default to the original filename
+    const filepath = path.join(__dirname, 'docs', filename);
+  
+    // Set the Content-Disposition header to trigger a download with the new filename
+    res.attachment(newFilename);
+  
+    // Send the file
+    res.download(filepath, newFilename, (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+  });
 
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);

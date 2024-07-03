@@ -11,15 +11,18 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 .dark{
-    background-color: rgb(45, 44, 44) !important;
-    background: rgb(rgb(49, 49, 49));
-    background: linear-gradient(90deg, rgba(209,209,230,1) 0%, rgba(0, 119, 166, 0.627) 0%, rgb(45, 44, 44) 0%) !important;
+    background-color: rgba(45, 44, 44, 0.404) !important;
+    background: rgb(rgba(49, 49, 49, 0.408));
+    background: linear-gradient(90deg, rgba(209,209,230,1) 0%, rgba(0, 119, 166, 0.627) 0%, rgba(45, 44, 44, 0.418) 0%) !important;
     color: white !important;
     border: none !important;
 }
 .dark-2{
-    background-color: rgb(75, 74, 74) !important;
+    background-color: rgba(74, 74, 75, 0.389) !important;
     color: white !important;
+}
+.dark-2 svg{
+    background-color: rgba(0, 0, 255, 0) !important;
 }
 .online{
     color: #0091ff;
@@ -144,13 +147,47 @@
     max-width: 80%;
     overflow: hidden;
     max-height: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.con-lastmsg img{
+    width: 10px !important;
+    height: 10px !important;
+    filter: invert(0%);
+}
+.con-lastmsg a{
+    display: none;
 }
 .con-time{
     justify-self: flex-end;
     font-size: 10px;
     font-weight: 700;
 }
+.doc-img{
+    width: 30px !important; height: 30px; margin-right: 10px; object-fit: contain;border-radius:0px !important;
+    filter: invert(100%);
+}
+.doc-a{
+    color: white;
+    font-size: 20px;
+    margin: 10px;
+    background-color: rgba(211, 208, 208, 0.692);
+    width: 30px;
+    height: 30px !important;
+    border-radius: 50%;
+    transition: scale 0.25s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.doc-a:hover{
+    scale: 1.1;
+}
 
+.recieved .doc-img{
+    filter: invert(40%);
+}
 .chat-header{
     display: flex;
     justify-content: space-between;
@@ -364,7 +401,7 @@
     }
   }
 .login-container{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.374);
     height: 80vh;
     width: 60vw;
     padding: 10px;
@@ -389,7 +426,7 @@
 }
 .login-form{
     flex:0.7;
-    background-color: aliceblue;
+    background-color: rgba(240, 248, 255, 0.408) !important;
     display: flex;
     flex-direction: column;
     justify-content: center;

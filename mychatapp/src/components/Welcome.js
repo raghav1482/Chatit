@@ -11,7 +11,7 @@ export default function Welcome(){
             
         }
     },[]);
-    return(
-        <div className='welcome'><div className='welprompt' style={{color:"black"}}>Hello and welcome to <span className='pulse' style={{color:"#2e86d8e0"}}>CHATIT :)</span></div></div>
+    return(<>
+        <div className='welcome'><div className='welprompt' style={{color:"black"}}>Hello and welcome to <span className='pulse' style={{color:"#2e86d8e0"}}>CHATIT :)</span></div></div></>
     );
 }

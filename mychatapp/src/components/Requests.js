@@ -30,8 +30,8 @@ function Requests(props) {
     }
   return (
     <div className='reqcon'>
-        {(req.length>0)?req.map((element)=>{return (
-      <div className='reqdiv'>
+        {(req.length>0)?req.map((element,index)=>{return (
+      <div className='reqdiv' key={index}>
         <img src={`https://res.cloudinary.com/dbtis6lsu/image/upload/v1705092727/${element.req_id.image}`}/>
         <div>
             <h4 style={{margin:"0"}}>{element.req_id.name}</h4>

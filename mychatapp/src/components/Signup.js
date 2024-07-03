@@ -64,7 +64,8 @@ export default function SignupComp(props){
     }
     
 
-    return(
+    return(<>
+            <div class="gradient" style={{objectFit:"cover"}}></div>
         <div className='login-container'>
             <div className='img-contain'><h1>Hello</h1> <p style={{padding:"10px" , backgroundColor:"white" , borderRadius:"20px"}}>Login / SignUP to <span className='pulse' style={{color:"rgb(35, 112, 255)"}}> CHATIT</span> now :</p></div>
             <div className='login-form'>
@@ -77,5 +78,6 @@ export default function SignupComp(props){
             </div>
             <ToastContainer stacked />
         </div>
+        </>
     );
 }

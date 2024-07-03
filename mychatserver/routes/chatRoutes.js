@@ -1,11 +1,12 @@
 const express= require("express");
-const {accessChat , fetchChats,deleteGRP, createGroupsChat,fetchGroups,groupExit, addSelfToGrp, searchChat, searchGrp,reqGrp,getreq, grpaccept, grpreject} = require("../controller/chatController");
+const {accessChat , fetchChats,deleteGRP, createGroupsChat,fetchGroups,groupExit, addSelfToGrp, searchChat, searchGrp,reqGrp,getreq, grpaccept, grpreject,docUpload} = require("../controller/chatController");
 const { protect } = require("../middleware/authmiddleware");
 const router = express.Router();
 
 router.post('/' ,protect, accessChat);
 router.get('/' ,protect, fetchChats);
 router.post('/creategrp' ,protect, createGroupsChat);
+router.post('/docupload' , docUpload);
 router.get('/fetchgrps' ,protect, fetchGroups);
 router.get('/searchchat' ,protect, searchChat);
 router.get('/searchgroup' ,protect, searchGrp);

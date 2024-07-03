@@ -83,8 +83,8 @@ export default function Groups(props){
             <div className={'lists' +(light?"":" dark-2")}>
                 {(loading===true)?<span className="loader-2"></span>:""}
                 {!loading && <div style={{width:"100%"}}>
-                {onlineusr.map((online)=>{
-                return (<motion.div whileHover={{scale:'1.01'}} whileTap={{scale:"0.98"}}  onClick={async()=>{
+                {onlineusr.map((online,index)=>{
+                return (<motion.div key={index} whileHover={{scale:'1.01'}} whileTap={{scale:"0.98"}}  onClick={async()=>{
                     const config={headers:{Authorization:`Bearer ${user.data.token}`}}
                     await axios.post(`${props.link}/chat/sendgrpreq`,{req_id: user.data._id, group_id:online._id,grpAdmin:online.groupAdmin},config).then((result)=>{
                         toast.success("Request Sent to Admin!!");

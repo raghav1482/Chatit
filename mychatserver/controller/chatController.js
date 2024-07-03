@@ -3,6 +3,8 @@ const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 const Message = require("../models/msgModel");
 const Request = require("../models/reqModel");
+const multer = require("multer")
+const path = require('path');
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId ,myside,name} = req.body;
@@ -245,5 +247,57 @@ const grpreject = async (req, res) => {
 };
 
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './docs'); // Destination folder
+  },
+  filename: function (req, file, cb) {
+    const originalname = file.originalname;
+    const filename = `${originalname}`; // Constructing filename
+    cb(null, filename);
+  }
+});
 
-module.exports = {accessChat ,searchChat,deleteGRP, fetchChats , fetchGroups , groupExit,createGroupsChat,searchGrp,reqGrp,getreq,grpaccept,grpreject}
+const upload = multer({ storage: storage });
+
+const docUpload = async (req, res) => {
+  try {
+    upload.single('file')(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        console.error('Multer error:', err);
+        return res.status(500).json({ error: 'Multer error' });
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        console.error('Unknown error:', err);
+        return res.status(500).json({ error: 'Unknown error' });
+      }
+
+      // Check if file is present
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      // Extract chatid and sender from the request body
+      const chatid = req.body.chatid;
+      const sender = req.body.sender;
+
+      if (!chatid) {
+        return res.status(400).json({ error: 'No chat ID provided' });
+      }
+
+      if (!sender) {
+        return res.status(400).json({ error: 'No sender ID provided' });
+      }
+
+      res.status(200).json({ message: 'File uploaded successfully', file: req.file, chatid: chatid, sender: sender });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+
+module.exports = {accessChat ,searchChat,deleteGRP, fetchChats , fetchGroups , groupExit,createGroupsChat,searchGrp,reqGrp,getreq,grpaccept,grpreject,docUpload}
